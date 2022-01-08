@@ -7,9 +7,5 @@ another one is User endpoint which can be used to search cars and get
 similar cars as that of the selected car.
 
 
-### Low Level Architecture ###
-![picture alt]("E:\Projects\comparison-api\comaprison-api.jpg" "Title is optional")
-
-
 
 
