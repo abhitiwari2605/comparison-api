@@ -47,11 +47,7 @@ public class ElasticCarRepo implements CarRepo {
     public String saveCar(Car car) {
         UUID uuid = UUID.randomUUID();
         car.setId(uuid.toString());
-        IndexRequest request = new IndexRequest.Builder<Car>().index(index)
-                .type(docType)
-                .id(uuid.toString())
-                .document(car)
-                .build();
+        IndexRequest request = new IndexRequest.Builder<Car>().index(index).type(docType).id(uuid.toString()).document(car).build();
 
         IndexResponse indexResponse = null;
         try {
@@ -64,11 +60,7 @@ public class ElasticCarRepo implements CarRepo {
 
     @Override
     public Car searchCar(String id) {
-        GetRequest getRequest = new GetRequest.Builder()
-                .index(index)
-                .type(docType)
-                .id(id)
-                .build();
+        GetRequest getRequest = new GetRequest.Builder().index(index).type(docType).id(id).build();
         try {
             return elasticsearchClient.get(getRequest, Car.class).source();
         } catch (IOException e) {
@@ -78,22 +70,11 @@ public class ElasticCarRepo implements CarRepo {
 
     @Override
     public List<Car> getSimilarCars(Car car) {
-        LikeDocument likeDocument = LikeBuilders.document().index(index).type(docType)
-                .id(car.getId()).build();
+        LikeDocument likeDocument = LikeBuilders.document().index(index).type(docType).id(car.getId()).build();
         Like like = new Like.Builder().document(likeDocument).build();
-        MoreLikeThisQuery moreLikeThisQuery = new MoreLikeThisQuery.Builder()
-                .fields(Arrays.asList(fields))
-                .maxQueryTerms(12)
-                .minTermFreq(1)
-                .like(like)
-                .build();
+        MoreLikeThisQuery moreLikeThisQuery = new MoreLikeThisQuery.Builder().fields(Arrays.asList(fields)).maxQueryTerms(12).minTermFreq(1).like(like).build();
         Query query = new Query.Builder().moreLikeThis(moreLikeThisQuery).build();
-        SearchRequest searchRequest = new SearchRequest.Builder()
-                .index(index)
-                .type(docType)
-                .query(query)
-                .size(resultCount)
-                .build();
+        SearchRequest searchRequest = new SearchRequest.Builder().index(index).type(docType).query(query).size(resultCount).build();
         SearchResponse searchResponse = null;
         try {
             searchResponse = elasticsearchClient.search(searchRequest, Car.class);
@@ -101,7 +82,7 @@ public class ElasticCarRepo implements CarRepo {
             throw new RuntimeException(e);
         }
         HitsMetadata<Car> carsMeta = searchResponse.hits();
-        return convertResponseToActual(searchResponse,Car.class);
+        return convertResponseToActual(searchResponse, Car.class);
     }
 
 

@@ -1,5 +1,6 @@
-package com.intuit.comparisonapi.controllers.dtos;
+package com.intuit.comparisonapi.controllers;
 
+import com.intuit.comparisonapi.controllers.dtos.CarResource;
 import com.intuit.comparisonapi.services.CarComparisonService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
